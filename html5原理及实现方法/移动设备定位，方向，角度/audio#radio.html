@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        //在获取成功时，getCurrentPosition将会往成功时的回调函数传一个参数，该参数对象内包含了当前网络(路由器)所在地理位置
+//         function suc(pos) {
+//             console.log(11111)
+//             console.log(pos)
+//         }
+//         //在获取失败时，getCurrentPosition将会往失败时的回调函数传一个参数
+//         function err(err) {
+//             console.log(err)
+//         }
+
+//         var options = {
+//             enableHighAccuracy:true,  //是否需要高精度位置默认false
+//             timeout:1000, //单位ms 请求超时时间 默认infinity
+//             maximumAge:1000  
+//             //单位ms，配合watchPosition方法使用，每隔1000ms更新一次地理位置，默认值为0，即不断地灯芯地理位置信息
+//             //watchPosition方法会不停地获取用户的位置信息，而在maximumAge为0的情况下，信息会不断更新，
+//             //但有时候位置信息并不需要快速地更新，这时便可以通过maximumAge设置，每一次更新信息要隔多长时间
+//         }
+// //-----------------------------------------------------------------------------------------------------------------------
+//         //getCurrentPosition获取当前地理位置，接收3个参数，1.成功时的回调函数，2.失败时的回调函数，3.options
+//         window.navigator.geolocation.getCurrentPosition(suc,err,options);
+
+//         // 获取失败时，返回PositionError对象
+//         //用户拒绝 code = 1    获取不到 code = 2    连接超时 code = 3
+//         // 获取成功时，返回Geoposition对象
+//         // Geoposition对象属性 latitude 纬度   longitude 经度  altitude 海拔  accuracy 定位精准度(m)  altitudeAccuracy 海拔精准度(m)  heading 方向  speed 速度
+//         // 除纬度 经度 定位精准度 其他数据需要特殊设备支持
+
+// //-----------------------------------------------------------------------------------------------------------------
+//         //watchPosition监听当前设备地理位置是否发生改变，发生改变时自动被调用
+//         var getPos = geolocation.watchPosition(suc,err,options)
+        // clearWatch(getPos)  //清除监听
+//-----------------------------------------------------------------------------------------------------------------
+        //devicemotion 监听加速度变化,当加速度发生变化时该事件被触发
+        //所包含属性
+        //accelerationIncludingGravity重力加速度(包括重心引力，即Z轴方向上的力会加上9.8)
+        //acceleration 重力加速度(不包含z轴上重心引力)
+        //rotationRate(alpha,beta,gamma)旋转速率
+        //interval 隔多长时间获取一次数据
+        window.addEventListener('devicemotion', function(e){
+            box.innerHTML = e.accelerationIncludingGravity.x + '-' + e.accelerationIncludingGravity.y +'-'+ e.accelerationIncludingGravity.z
+        });
+
+
+//----------------------------------------------------------------------------------------------------------------
+        //deviceorientation监听设备在方向上的变化
+        //事件对象属性
+        //alpha 表示设备沿z轴上的旋转角度，范围为0~360
+        //.beta 表示设备在x轴上的旋转角度，范围为-180~180。它描述的是设备由前向后旋转的情况
+        //gamma 表示设备在y轴上的旋转角度，范围为-90~90。它描述的是设备由左向右旋转的情况
+        //webkitCompassHeading：与正北方向的角度差值。正北为0度，正东为90度，正南为180度，正西为270度。因为0度是正北，所以叫指北针。
+        //webkitCompassAccuracy：指北针的精确度，表示偏差为正负多少度。一般是10。
+
+    </script>
+</body>
+</html>

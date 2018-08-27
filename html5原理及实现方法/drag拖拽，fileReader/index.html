@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #item {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        #box{
+            width:300px;
+            height:300px;
+            border:1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 创建可拖动元素  -->
+    <div id="item" draggable="true"></div>
+    <div id="box"></div>
+    <script>
+        var oItem = document.getElementById('item')
+        var box = document.getElementById('box')
+
+//         //dragstart被拖拽元素 开始被拖拽时触发
+//         oItem.addEventListener('dragstart', function () {
+//             console.log('dragstart')
+//         })
+//         //dragend 被拖拽元素 拖拽完成时
+//         oItem.addEventListener('dragend', function () {
+//             console.log('dragend')
+//         })
+// //-----------------------------------------------------------------------------------------------
+//         //dragenter 被拖拽元素(鼠标)进入到目标元素时
+//         box.addEventListener('dragenter',function() {
+//             console.log('dragenter')
+//         })
+
+//         //被拖拽元素在目标元素上移动时
+//         box.addEventListener('dragover',function(e) {
+//             e.preventDefault();
+//             console.log('dragover')
+//         })
+
+//         //drag 被拖拽元素在目标元素内被释放时(必须取消dragover的默认事件才能触发)
+//         box.addEventListener('drop',function() {
+//             console.log('drag')
+//         })
+
+//--------------------------------------------------------------------------------------------------------------
+        //DragEvent事件对象
+        //传值 e.dataTransfer.setData("data",e.target.id)
+        //取值 e.dataTransfer.getData("data")
+        // oItem.addEventListener('dragstart', function (e) {
+        //     e.dataTransfer.setData('data',this.id)
+        // })
+        // box.addEventListener('dragover',function(e) { 
+        //     e.preventDefault(); 
+        // })
+        // box.addEventListener('drop',function(e) {
+        //     var data = e.dataTransfer.getData('data')
+        //     this.appendChild(document.getElementById(data))
+        //     console.log(data)
+        // })
+
+
+//-----------------------------------------------------------------------------------------------------
+        //使用拖拽上传文件
+        box.addEventListener('dragover',function(e) {
+            e.preventDefault()
+        },false)
+        box.addEventListener('drop',function(e){
+            e.preventDefault() //drop 事件的默认行为是以链接形式打开文件
+            var dt = e.dataTransfer
+            var files = dt.files;
+            console.log(files[0])
+        },false)
+
+//--------------------------------------------------------------------------------------------------------------
+        // fileReader 方法  用于读取文件
+
+        // abort() 终止读取
+        // readAsBinaryString(file) 将文件读取为二进制编码
+        // readAsDataURL(file) 将文件读取为DataURL编码
+        // readAsText(file, [encoding]) 将文件读取为文本
+        // readAsArrayBuffer(file)​​​​​​​ 将文件读取为arraybuffer
+        //读取文件中每一个字节的信息，等同于触发文件读取的接口，只有文件读取完毕后才能进行上传
+
+        //事件
+        // onloadstart 读取开始时触发
+        // onprogress 读取中
+        // onloadend 读取完成触发，无论成功或失败
+        // onload 文件读取成功完成时触发
+        // onabort 中断时触发
+        // onerror 出错时触发
+
+        //获取读取结果
+        // fr.onload = function() {  
+        //     this.result; //获取得到结果，传给后台，进行存储
+        // }; 
+
+//------------------------------------------------------------------------------------------------------------
+        //input提取本地文件
+        //<input type="file" id="File">  通过type='file'可实现input框读取
+    </script>
+</body>
+
+</html>

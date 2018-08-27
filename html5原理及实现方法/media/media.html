@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="playBtn">play</button>
+    <button id="pauseBtn">pause</button>
+    <button id="reLoadBtn">reLoad</button>
+    <button id="volDown">-</button>
+    <button id="volUp">+</button>
+    <!-- 音频插入方法 -->
+
+    <!-- controls为默认播放器控件 -->
+    <audio src="./Roller Coaster.mp3" controls></audio>
+
+
+    <!-- autoplay为自动播放 -->
+    <!-- <audio src="./Roller Coaster.mp3" autoplay></audio> -->
+
+
+    <!-- preload(none/metadata/auto)  -->
+    <!-- 规定是否在页面加载完成后载入视频或音频
+        none：不需要加载数据
+        metadata: 只加载注入时长，比特率，帧大小类的元数据，而不加载媒体内容
+        auto：浏览器加载它认为适量的媒体内容 -->
+    <!-- <audio src="./Roller Coaster.mp3" controls preload="auto"></audio> -->
+
+
+    <!-- loop 是否循环播放音/视频 -->
+    <!-- <audio src="./Roller Coaster.mp3" controls loop></audio> -->
+
+
+    <!-- poster (video 独有) -->
+    <!-- 使用一张图片作为视频在开始播放前的封面，可以用于统一各浏览器对视频初始画面不同的默认设置 -->
+    <!-- <video src="成都.mp4" poster="封面.jpg" controls></video> -->
+
+
+    <!-- 多类型资源 -->
+    <!-- 兼容各种音频或视频格式在各浏览器中的可行性,假如mp3文件在当前浏览器不可行的话，浏览器会看ogg文件是否可行
+         type属性用于使浏览器更易于辨认当前文件时何种格式 -->
+    <!-- <audio id="music">  
+            <source src="成都.mp3" type="audio/mpeg">
+            <source src="成都.ogg" type='audio/ogg"'>
+        </audio> -->
+
+
+    <script>
+        var audio = document.getElementsByTagName('audio')[0]
+        // 动态生成音、视频文件
+        // var audio = new Audio('./Roller Coaster.mp3');//仅限于音频  //其他写法  var audio = new Audio() audo.src = './....'
+
+        // var video = document.createElement('video');//可音频，视频
+        // document.body.appendChild(audio)
+
+        //--------------------------------------------------------------------------------------------------------------------------------
+
+        //属性设置
+        // controls/loop/preload/autoplay属性
+        // audio.controls = true; 可以填  'controls'
+        // audio.loop = 'loop';
+        // audio.preload = 'auto';
+        // audio.autoplay = true;  可以填  'autoplay'
+        // audio.currentSrc返回资源地址(需等资源加载完毕后，才能获取，配合onload使用)
+        // window.onload = function() {console.log(audio.currentSrc)}
+
+        //------------------------------------------------------------------------------------------------------------------------------
+
+        //方法  play()  pause()  load()  建立dom元素通过onclick的方式触发
+        playBtn.onclick = function () {
+            audio.play() //开始播放
+        }
+        pauseBtn.onclick = function () {
+            audio.pause() //暂停
+        }
+        reLoadBtn.onclick = function () {
+            audio.load() //重新加载视频/音频元素
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+
+        //audio.volume 
+        //表示播放音量，介于0(静音)~1(最大音量)之间，默认1，在某些情况下要对volume属性的值进行取证(会出现0.500000000001类似的情况)
+        //audio.muted = true 
+        //控制是否静音,将muted属性设置为true则会进入静音模式，设置为false则会恢复之前指定的音量继续播放。
+
+        volDown.onclick = function () {
+            if (audio.volume > 0) {
+                audio.volume -= 0.1
+            }
+        }
+        volUp.onclick = function () {
+            if (audio.volume < 1) {
+                audio.volume += 0.1
+            }
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------------
+
+        //audio.playbackRate 播放速度
+        //用于指定媒体播放的速度。该属性值为1.0表示正常速度，大于1则表示”快进”，0~1之间表示”慢放"，负值表示回放(就目前而言浏览器不支持该方式的回放)
+
+        //audio.playbackRate = 0.5  当低于或高于一定值时将出现听不到声音等的情况
+
+        //---------------------------------------------------------------------------------------------------------------------
+
+        //audio.currentTime 
+        //当前播放至什么地方，返回秒数，可通过设值使音频或视频跳转到指定的时间点(等同于可实现快进/后退) audio.currentTime += 20
+
+        //audio.duration  返回当前音频/视频的时长
+
+        //进度条设置思路
+        //通过css3动画实现进度条功能，动画时长为audio.duration 路程为 进度条宽度
+
+        //---------------------------------------------------------------------------------------------------------------------
+
+        //played  返回音/视频真正听过的时间段
+        //audio.played 返回真正听过的段数，0s~30s --> 快进 --> 60s~90s  段数为2段
+        //audio.played.start[0] 第一段的开始时间点
+        //audio.played.end[0] 第一段的结束时间点
+
+        //buffered  返回当前已经缓冲的时间段
+        //同样假如用户有跳着看的行为的话 buffered将会有多段
+
+        //seekable  返回用户可以跳转的时间段
+        //可以跳着不安的时间段由已经缓冲的时间段决定
+
+        //着三个属性都是TimeRanges对象，每个对象都有length属性以及start()/end()方法
+
+        //----------------------------------------------------------------------------------------------------------------------------
+
+        //paused
+        //查看当前媒体的播放状态，true为暂停状态，false为播放中，可作为播放暂停按钮的开关
+        // or.onclick = function() {
+        //     if(audio.paused){
+        //         audio.play()
+        //     }else{
+        //         audio.pause()
+        //     }
+        // }
+
+        //seekin属性  为true表示播放器正在调到一个新的播放点
+        //audio.onseekin = function(){}  当用户作出对音/视频的跳转行为时被触发
+
+        //ended
+        //为true时代表 当前媒体已经播放完毕
+
+        //-------------------------------------------------------------------------------------------------------
+
+        //事件
+        //audio.onplay = function() {
+        //     alert('广告出来')
+        // }
+        // audio.onpause = function() {
+        //     alert('广告消失')
+        // }
+        // audio.onloadedmetadata = function() {
+        //     alert('当媒体元数据加载完毕时触发')
+        // }
+        // audio.onloadeddata = function() {
+        //     alert('准备播放时触发')
+        // }   
+        // audio.ended = function() {
+        //     alert('视频播放结束后触发')
+        // }         
+
+        //-----------------------------------------------------------------------------------------------------------
+        //canPlayType()方法  用于媒体格式兼容，详见ppt
+        //readyState属性   音频的当前就绪状态,详见ppt
+        //networkState属性  返回音频的当前网络状态
+        //error 事件在音频/视频加载发生错误时触发,mediaError对象中的code属性返回的的数字值，代表错误状态
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //worker用于另开一条线程来处理一些数据量大的运算，减轻主页面的负担
+        //worder文件必须与主文件满足同源策略
+        
+        //postMessage方法 用于主文件往worker文件发送参数
+        //meessage事件  在worker文件中接收主文件所发过来的参数,主文件所发过来的值存储晕e.data
+
+        var worker = new Worker('./worker.js')  //创建worker对象，可以把这个过程看成是雇佣一个工人的方式
+
+        worker.postMessage(10)
+
+        worker.onmessage = function(e) {
+            console.log(e.data)
+            this.terminate();
+        }
+
+
+        //结束worker,当worker的工作完成后可以通过以下放下，解除双发的雇佣关系
+        //close() 设置于worker文件，工人解雇老板，我不干了(尽量别用)
+        //terminate()  设置于主文件，老板解雇工人
+
+        //尽量避免使用close方法，但worker只是一个次要的组件，异步加载应该由主文件占有主导权
+
+        //其他特性
+        //在worker文件内还可以通过importScript('./math1.js','./math2.js'),引入一些其他的js文件，但它不能引入jQuery.js
+        //之所以不可以的原因在于，通过new Worker()引入的worker文件，它并不能获得html文件环境下的window与document
+        //自然在worker文件内通过jQuery的方法进行数据运算是无效的，所以即使引入了也没用，所以说worker只能进行一些数据处理
+
+        //作用域globalWorkerScope
+        //在worker内部可以继续生成worker,但目前只有firfox支持
+        //可以使用的属性 navigator;XMLHttpRequest(用于发送ajax请求);setTimeout/setInterval
+</script>
+</body>
+</html>

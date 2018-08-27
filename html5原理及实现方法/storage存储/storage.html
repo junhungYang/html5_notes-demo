@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>storage1</title>
+
+</head>
+
+<body>
+    <a href="./index1.html" target="_blank">123</a>
+    <script>
+        //storage 客户端存储
+        //localStorage 永久存储  sessionStorage 临时存储(除浏览器关闭外，不会消失)
+
+        //存储方式
+        localStorage.name = 'animee'
+        localStorage.obj = JSON.stringify({
+            obj: 'It is an object'
+        })
+
+        sessionStorage.sex = 'male'
+
+        //storage数据获取
+        //storage获取受同源策略影响，不同源无法相互获取数据,在同源的条件下 两网页可以相互获取localStorage
+
+        //除通过一个页面跳转到另一个页面，另一个页面能获取之前页面的sessionStorage外，其他状况两页面无法获取对方的sessionStorage
+
+
+        //对于非英文及特殊符号的转码 storage与cookie都可使用
+        localStorage.luanma = encodeURIComponent('杨俊兴、、、') //写入 返回：%E6%9D%A8%E4%B........
+        decodeURIComponent(localStorage.luanma) // 解析 返回:'杨俊兴、、、'
+
+
+        //API
+        // localStorage.setItem(name,val) 设置属性值
+        // localStorage.getItem(name) 获得属性值
+        // localStorage.removeItem(name) 移除属性
+        // localStorage.clear() 清除全部属性
+
+
+        //---------------------------------------------------------------------------------------------------------------------
+        //cookie补充
+        //navigator.cookieEnabled  查看当前浏览器是否允许cookie存储
+        //document.cookie = "name=aimee" 设置cookie值
+        //document.cookie 只能获取一堆cookie,不能获取单个
+
+        //获取具体cookie的方法(字符串拆分)
+        // function getCookie(name) {
+        //     var name = name + "=";
+        //     var ca = document.cookie.split(';');
+        //     for (var i = 0; i < ca.length; i++) {
+        //         var c = ca[i];
+        //         while (c.charAt(0) == ' ') c = c.substring(1);
+        //         if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+        //     }
+        //     return "";
+        // }
+
+        // 1. 设置cookie存储期限
+        document.cookie = "name=animee;max-age=10000";
+        document.cookie = "abc=animee;max-age=10000";
+        // 单位 秒
+
+        // 2.expires 当前时间加上保存时间
+        // var timestamp = (new Date()).getTime() + 10000;
+        // var expires = new Date(timestamp).toGMTString();
+        // document.cookie = `name=animee;expires=+${expires}`;
+
+        // 3. domain
+        // 4. path
+
+        //var d = new Date();
+        // d.setTime(d.getTime() + 保存时间);
+        // d.toUTCString();
+
+        // 1.删除cookie max-age=0
+        // 需要带上键值对
+        // document.cookie = ‘name=scott;max-age=0’;
+
+        // 2.expires 设置为之前的时间
+        // document.cookie = ‘name=scott;expires= …’;
+        //--------------------------------------------------------------------------------------------------------------------------
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* svg {
+            border: 1px solid black;
+        } */
+        rect{
+            fill:red;
+            stroke:red;
+        }
+        circle {
+            fill: tomato;
+            stroke: rgb(188, 179, 252);
+            stroke-width: 20px;
+            stroke-opacity: 0.8;
+            fill-opacity: 1;
+        }
+
+        polyline {
+            fill: transparent;
+            stroke: indigo;
+            stroke-width: 20px;
+            stroke-linecap: round;
+            stroke-linejoin: miter;
+        }
+
+        polygon {
+            fill: transparent;
+            stroke: red;
+        }
+
+        text {
+            fill: steelblue;
+        }
+
+        /* line{
+            stroke-width: 20px;
+            stroke: salmon;
+            stroke-linecap:round;
+        } */
+
+        path {
+            stroke: rgb(212, 32, 9);
+            fill: rgb(252, 221, 221);
+        }
+        /* #animate{
+            stroke:tomato;
+            stroke-width:20px;
+            stroke-dasharray:500px;
+            stroke-dashoffset:0px;
+            animation: dash 1s linear alternate infinite;
+        }
+        @keyframes dash {
+            0%{
+                stroke-dashoffset: 0px;
+            }
+            100%{
+                stroke-dashoffset: 500px;
+            }
+        } */
+    </style>
+</head>
+
+<body>
+    <!-- 应用场景：图表  图标icon  动效  矢量图 -->
+    <!-- <svg width="500px" height="500px" viewBox="0,0,40,30"> -->
+        <!-- <line x1="100" y1="100" x2="200" y2="200"></line> -->
+        <!-- <rect x="50" y="50" width="200" height="200" rx="30" ry="30"></rect> -->
+        <!-- <ellipse rx="100" ry="50" cx="250" cy="250"></ellipse> -->
+        <!-- <circle r="50" cx="250" cy="250" cx="250"></circle> -->
+        <!-- <polyline points="50 50, 200 50, 200 200"></polyline> -->
+        <!-- <polygon points="100 100,200 100,200 200,100 200"></polygon> -->
+        <!-- <text x="100" y="100">hello world</text> -->
+
+    <!-- 
+            <path id="path1" d = "M 0 10 L 10 10" /> -->
+        <!-- <path id="path1" d="M 100 100 h 300 v 300 z"/> -->
+        <!-- <path d="M 100 100 A 100 200 45 1 0 200 100"/> -->
+        <!-- A  1.在x轴的半径(未曾旋转时)  
+                2.在y轴的半径(未曾旋转时) 
+                3.相对x轴旋转的角度(不围绕圆心，只是始终令圆弧上的某两点与起点和终点重叠) 
+                4. 1代表取大圆弧  0代表取小圆弧
+                5. 1代表顺时针  0代表逆时针
+                6.7. 终点x,y 
+                联想法，先思考在没旋转状态下作出的圆与起点和终点相交的情况
+                再决定要大圆弧还是小圆弧，再决定是顺时针的还是逆时针的 大/小 圆弧-->
+        <!-- <path d="M 100 100 Q 0 0 300 100 T 500 100"/>    -->
+        <!-- 决定贝塞尔曲线的曲线形态的点为中间点，在起点与终点的y轴坐标一样的情况下，并且终点x>起点x
+            中间点的x < (终点x-起点x)/2 该曲线往左拱 大于的话往右拱-->
+        <!-- T属性是原始二次贝塞尔曲线的延伸，等同于在原来的终点上再作一条贝塞尔曲线
+             此时原来的终点作为起点，中间点为对原终点与圆中间点所成的直线进行延伸，延伸长度为原来的长度
+             延伸完毕后，再把该中间点与T点相连 -->
+
+        <!-- 三次贝塞尔曲线 -->
+        <!-- <path d="M 0 200 Q 100 100 200 100 300 400 S 500 500 400 0"/> -->
+
+        <!-- 线性渐变 -->
+        <!-- <defs>
+            <linearGradient id="bg1" x1="0" y1="0" x2="50%" y2="50%">
+                <stop offset="80%" style="stop-color:rgb(255,255,0);" />
+                <stop offset="100%" style="stop-color:rgb(255,0,0);" />
+            </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="500" height="500" style="fill:url(#bg1)" /> -->
+        <!-- 渐变操作必须包裹在<defs>标签内 x1 y1为起始坐标 x2 y2代表渐变至x轴y轴上的多少距离
+            offset代表 该颜色在x轴和y轴上所占的份额-->
+
+        <!-- 径向渐变 -->
+        <!-- <defs>
+            <radialGradient id="bg2" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                <stop offset="0%" style="stop-color:green;" />
+                <stop offset="100%" style="stop-color:red;" />
+            </radialGradient>
+        </defs>
+        <rect x="0" y="0" width="500" height="500" style="fill:url(#bg2)" /> -->
+
+        <!-- 高斯滤镜 -->
+        <!-- <defs>
+            <filter id="Gaussian_Blur">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+            </filter>
+        </defs>
+        <rect x="0" y="0" width="200" height="200" fill=”yellow” style="filter:url(#Gaussian_Blur)" /> -->
+    <!-- </svg> -->
+
+
+    <!-- <svg id="svg" width="500" height="500" viewBox="0,0,30,40">
+        <rect x='0' y='0' width='30' height='30'>123</rect>
+    </svg>  -->
+    <script>
+    //    console.log(path1.getTotalLength())//获取路径总长度
+    //    console.log(path1.getPointAtLength(50)) //获取在路径上，距离路径50px的点的坐标
+       //严格意义上这两个方法只有path元素支持，但各个浏览器有所不同，例如在chorme中line元素也也可以调用该方法
+
+    //   JS生成SVG元素
+    //1、创建SVG元素需要指定命名空间
+    //2、SVG元素对象一般通过调用setAttribute()方法来设定属性值
+    var char = "http://www.w3.org/2000/svg"
+    var svg = document.createElementNS(char,'svg')
+    svg.setAttribute('width','500');
+    svg.setAttribute('height','500');
+    svg.setAttribute('style',"border:1px solid red");
+    document.body.appendChild(svg)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>history</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-size: 0;
+        }
+
+        .wrapper {
+            position: absolute;
+            left: 50%;
+            margin-left: -200px;
+            border: 1px solid #000;
+            width: 400px;
+            height: 400px;
+        }
+
+        .header {
+            display: flex;
+            width: 100%
+        }
+
+        button {
+            flex-grow: 1;
+            width: 100px;
+            font-size: 16px;
+            height: 50px;
+        }
+
+        .item {
+            text-align: center;
+            line-height: 350px;
+            font-size: 14px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <button data="one">1</button>
+            <button data="two">2</button>
+            <button data="three">3</button>
+        </div>
+        <div class="content">
+            <div class="item"></div>
+        </div>
+    </div>
+    <script>
+        var btn = document.getElementsByTagName('button');
+        var header = document.getElementsByClassName('header')[0];
+        var item = document.getElementsByClassName('item')[0];
+        var page = ''
+
+        function init() {
+            history.replaceState({
+                newPage: 'one'
+            }, null, '#one')
+            ajaxFunc('GET', './getData.php', 'page=one', doData, true)
+        }
+        init()
+
+        function doData(data) {
+            item.innerHTML = ''
+            item.innerHTML = data
+        }
+
+        header.addEventListener('click', function (e) {
+            if (e.target.getAttribute('data') == page) {
+                console.log('error')
+                return //防止重复点击当前按钮时，生成无谓的历史记录
+            } else {
+                page = e.target.getAttribute('data')
+                history.pushState({newPage: page}, null, '#' + page);
+                ajaxFunc('GET', './getData.php', 'page=' + page, doData, true) 
+            }
+        })
+        window.addEventListener('popstate', function (e) {
+            console.log(e)
+            page = e.state.newPage;
+            ajaxFunc('GET', './getData.php', 'page=' + page, doData, true)
+        })
+        //pushState中的第一个参数将会被记录至PopStateEvent事件对象中的state属性，该属性可以间接地记录当前页面是哪一个页面
+        //因为在一开始设置历史记录时，就已经对每一个记录传入了不同的state值，我们便可以通过运用这位唯一的身份标识，完成ajax请求
+
+
+        //当然也可以通过该hashchange事件去进行监听
+
+        window.addEventListener('hashchange', function (e) {
+            console.log(e)
+        })
+
+
+
+
+
+        function ajaxFunc(method, url, data, callback, flag) {
+            var xhr = null
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject('Microsoft.XMLHttp')
+            }
+            method = method.toUpperCase()
+            if (method == 'GET') {
+                xhr.open(method, url + '?' + data, flag);
+                xhr.send()
+            } else if (method == 'POST') {
+                xhr.open(method, url, flag);
+                xhr.setRequestHeader('Content-type', 'application/\
+        x-www-form-urlencoded');
+                xhr.send(data);
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        // console.log(xhr.responseText);
+                        callback(xhr.responseText);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
